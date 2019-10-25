@@ -14,16 +14,16 @@ m2 = np.mod(np.cumsum(np.random.random(len(tt)) > 1-1e-3), 2) + np.random.normal
 kernels = pd.read_csv('data/emp_kernels.csv')
 tonic = kernels["i1_scaled"]
 tonic = np.hstack((np.zeros(len(tonic)), tonic))
-tonic = tonic / np.sum(tonic)
 tonic = tonic[::10]
+tonic = tonic / np.sum(tonic)
 
 # Apply Convolution
 conv1 = np.convolve(m1, tonic, mode='valid')
 conv2 = np.convolve(m2, tonic, mode='valid')
 
 # Apply Deconvolution
-deconv1, _ = ss.deconvolve(conv1, tonic)
-deconv2, _ = ss.deconvolve(conv2, tonic)
+# deconv1, _ = ss.deconvolve(conv1, tonic)
+# deconv2, _ = ss.deconvolve(conv2, tonic)
 
 # Plot results
 plt.subplot(321)
@@ -38,6 +38,6 @@ plt.plot(tonic)
 plt.subplot(122)
 plt.plot(m1, m2, '.')
 plt.plot(conv1, conv2, '.')
-plt.plot(deconv1, deconv2, '.')
+# plt.plot(deconv1, deconv2, '.')
 
 plt.show()
