@@ -23,11 +23,13 @@ def fft(ft, t, pad=1, window=np.hanning):
 
     # Find power-of-two pad length and apply transform
     N = int(expceil(len(ft)*pad))
-    ff = np.fft.fft(ft, N)[:N/2]
+    ff = np.fft.fft(ft, N)
+    ff = ff[:N/2]
     f = np.fft.fftfreq(N, dt)[:N/2]
 
     # Separate amplitude and phase
     amp = np.abs(ff)
+    print(np.sum(amp**2))
     ph = np.angle(ff)
 
     return (amp, ph, f)
@@ -41,6 +43,7 @@ if __name__ == '__main__':
     gauss = lambda x, x0, s: np.exp(-(x-x0)**2/(2*s**2))
     t = np.arange(0, 10, 0.1)
     ft = 2*np.sin(2*2*np.pi*t) + np.sin(6*2*np.pi*t)
+    ft = np.sin(2*np.pi*t)
     # ft = gauss(t, 5, 2)
     (amp, ph, f) = fft(ft, t, pad=2)
 
