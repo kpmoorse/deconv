@@ -24,8 +24,8 @@ def fft(ft, t, pad=1, window=np.hanning):
     # Find power-of-two pad length and apply transform
     N = int(expceil(len(ft)*pad))
     ff = np.fft.fft(ft, N)
-    ff = ff[:N/2]
-    f = np.fft.fftfreq(N, dt)[:N/2]
+    ff = ff[:N//2]
+    f = np.fft.fftfreq(N, dt)[:N//2]
 
     # Separate amplitude and phase
     amp = np.abs(ff)
