@@ -10,7 +10,7 @@ def expceil(x, a=2):
 
 # Take the fourier transform of the windowed input function
 # Return amplitude, phase, and frequency-spacing
-def fft(ft, t, pad=0, window=None, hilbert=False):
+def fft(ft, t, pad=0, window=None, hilbert=False, post=False):
 
     # Extract sample period
     if len(t) > 0:
@@ -29,6 +29,7 @@ def fft(ft, t, pad=0, window=None, hilbert=False):
     if pad>0:
         N = int(expceil(len(ft)*pad))
     else:
+
         N = len(ft)
 
     ff = np.fft.fft(ft, N)
@@ -38,7 +39,15 @@ def fft(ft, t, pad=0, window=None, hilbert=False):
     # amp = np.abs(ff)
     # ph = np.angle(ff)
 
-    return (ff, f)
+    if post:
+        ff = ff[f>=0]
+        f = f[f>=0]
+        amp = np.abs(ff)
+        ph = np.angle(ff)
+        return (amp, ph, f)
+    else:
+        return (ff, f)
+
 
 def ifft(ff, f, pad=0, window=None):
 
