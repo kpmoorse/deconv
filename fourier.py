@@ -16,7 +16,7 @@ def fft(ft, t, pad=0, window=None, hilbert=False, post=False):
     if len(t) > 0:
         dt = np.diff(t[:2])[0]
         if not np.all(np.diff(t) - dt < dt/1e6):
-            raise ValueError("Sample frequency is not constant; DFT requires constant sampling")
+            raise ValueError("Sample frequency is not constant; FFT requires constant sampling")
     else:
         dt = t
 
@@ -81,13 +81,8 @@ if __name__ == '__main__':
 
     # Calculate fft & ifft
     (ff, f) = fft(ft, t, pad=4, window=None)
+    (amp, phase, f) = fft(ft, t, pad=4, window=None, post=True)
     (ft2, t2) = ifft(ff, f, pad=0, window=None)
-
-    # Restrict to positive freqs and separate amplitude & phase
-    ff = ff[f>=0]
-    f = f[f>=0]
-    amp = np.abs(ff)
-    ph = np.angle(ff)
 
     # Postprocess ifft
     ft2 = ft2[t2>=0]
